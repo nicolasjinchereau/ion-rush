@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 69048a8b145169f43a1d87d08aabd3d5
+labels:
+- cooktorrance
+- cook
+- torrance
+- reflective
+- shader
+timeCreated: 1496806398
+licenseType: Free
+ShaderImporter:
+  defaultTextures:
+  - _MainTex: {instanceID: 0}
+  - _LightmapTex: {instanceID: 0}
+  - _LightVolume: {fileID: 11700000, guid: 95a0e147a19a848eb8aac429f0c0a374, type: 2}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

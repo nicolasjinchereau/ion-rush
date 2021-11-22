@@ -1,0 +1,53 @@
+# =============== #
+# Unity generated #
+# =============== #
+[Tt]emp/
+[Oo]bj/
+[Bb]uild
+/Library/
+/Logs/
+/UserSettings/
+sysinfo.txt
+*.stackdump
+/*.csproj
+/*.sln
+
+# ============================================= #
+# Visual Studio / MonoDevelop / Rider generated #
+# ============================================= #
+[Ee]xported[Oo]bj/
+.vs/
+/*.userprefs
+/*.csproj
+/*.pidb
+/*.suo
+/*.sln*
+/*.user
+/*.unityproj
+/*.booproj
+/.idea*/
+ 
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+[Tt]humbs.db
+[Dd]esktop.ini
+
+# ===================== #
+# Firebase dependancies #
+# ===================== #
+
+/ProjectSettings/AndroidResolverDependencies.xml
+/Assets/Plugins/Android/android.arch.core.*
+/Assets/Plugins/Android/android.arch.lifecycle.*
+/Assets/Plugins/Android/com.android.support.*
+/Assets/Plugins/Android/com.google.android.*
+/Assets/Plugins/Android/com.google.firebase.*#
+
+UnityProject/debug.log
+UnityProject/Logs/

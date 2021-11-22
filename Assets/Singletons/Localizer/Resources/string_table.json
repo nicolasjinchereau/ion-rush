@@ -1,0 +1,410 @@
+{
+    "ENGLISH": [
+        "ENGLISH",
+        "ENGLISH",
+        "ENGLISH",
+        "ENGLISH"
+    ],
+    "FRENCH": [
+        "FRANÇAIS",
+        "FRANÇAIS",
+        "FRANÇAIS",
+        "FRANÇAIS"
+    ],
+    "SPANISH": [
+        "ESPAÑOL",
+        "ESPAÑOL",
+        "ESPAÑOL",
+        "ESPAÑOL"
+    ],
+    "CHINESE": [
+        "中国",
+        "中国",
+        "中国",
+        "中国"
+    ],
+    "LANGUAGE": [
+        "Language",
+        "Langue",
+        "Idioma",
+        "语言"
+    ],
+    "MUSIC": [
+        "Music",
+        "Musique",
+        "Música",
+        "音乐"
+    ],
+    "SOUND_EFFECTS": [
+        "Sound Effects",
+        "Effets Sonores",
+        "Efectos Sonido",
+        "声音特效"
+    ],
+    "JOYSTICK": [
+        "Joystick",
+        "Manette",
+        "Palanca",
+        "操纵杆"
+    ],
+    "ON": [
+        "ON",
+        "OUI",
+        "SÍ",
+        "已启用"
+    ],
+    "OFF": [
+        "OFF",
+        "NON",
+        "NO",
+        "已禁用"
+    ],
+    "PLAY": [
+        "PLAY",
+        "JOUER",
+        "JUGAR",
+        " 开始 "
+    ],
+    "STORE": [
+        "STORE",
+        "MARCHÉ",
+        "MERCADO",
+        " 市场 "
+    ],
+    "HELP": [
+        "HELP",
+        "AIDE",
+        "AYUDA",
+        " 说明 "
+    ],
+    "CANCEL": [
+        "CANCEL",
+        "ANNULER",
+        "CANCELAR",
+        "取消"
+    ],
+    "OK": [
+        "OK",
+        "ACCEPTER",
+        "ACEPTAR",
+        "接受"
+    ],
+    "QUIT_TITLE": [
+        "Quit game?",
+        "Quitter le jeu?",
+        "¿Salir del juego?",
+        "退出游戏?"
+    ],
+    "QUIT_MESSAGE": [
+        "Exit to main menu and lose progress?",
+        "Aller au menu principal et perdre la progression?",
+        "¿Salir al menú principal y perder el progreso?",
+        "退出到主菜单并失去进度?"
+    ],
+    "CURRENCY": [
+        "Currency",
+        "Monnaie",
+        "Moneda",
+        "货币"
+    ],
+    "BATTERIES": [
+        "Batteries",
+        "Batteries",
+        "Baterías",
+        "电池"
+    ],
+    "EQUIPMENT": [
+        "Equipment",
+        "Équipement",
+        "Equipo",
+        "设备"
+    ],
+    "WATCH_ADS": [
+        "Commercials",
+        "Publicités",
+        "Comerciales",
+        "广告"
+    ],
+    "FREE": [
+        "Free",
+        "Gratuit",
+        "Gratis",
+        "免费"
+    ],
+    "A_FEW_COINS": [
+        "A Few Coins",
+        "Quelques Pièces",
+        "Unas Pocas Monedas",
+        "少量硬币"
+    ],
+    "HANDFUL_OF_COINS": [
+        "Handful of Coins",
+        "Paume de Pièces",
+        "Puñado de Monedas",
+        "少数硬币"
+    ],
+    "CUP_OF_COINS": [
+        "Cup of Coins",
+        "Coupe de Pièces",
+        "Copa de Monedas",
+        "硬币杯"
+    ],
+    "BUCKET_OF_COINS": [
+        "Bucket of Coins",
+        "Seau de Pièces",
+        "Cubo de Monedas",
+        "桶硬币"
+    ],
+    "TUB_OF_COINS": [
+        "Tub of Coins",
+        "Baquet de Pièces",
+        "Tina de Monedas",
+        "缸硬币"
+    ],
+    "CRATE_OF_COINS": [
+        "Crate of Coins",
+        "Crate de Pièces",
+        "Caja de Monedas",
+        "全箱硬币"
+    ],
+    "TRUCKLOAD_OF_COINS": [
+        "Truckload of Coins",
+        "Camion de Pièces",
+        "Camión de Monedas",
+        "硬币整车"
+    ],
+    "ENTER_COUPON_CODE": [
+        "Enter Coupon Code",
+        "Entrez Code Promo",
+        "Poner Código Cupón",
+        "输入优惠"
+    ],
+    "PURCHASING": [
+        "Purchasing",
+        "Achat",
+        "Adquisitivo",
+        "购买"
+    ],
+    "RESTORE_PURCHASES": [
+        "Restore Purchases",
+        "Restaurer Achats",
+        "Restaurar Compras",
+        "恢复购买"
+    ],
+    "COLLECTION": [
+        "Collection",
+        "Recueillir",
+        "Minería",
+        "收集"
+    ],
+    "DEFENSE": [
+        "Defense",
+        "Défense",
+        "Defensa",
+        "保护"
+    ],
+    "TACTICAL": [
+        "Tactical",
+        "Tactique",
+        "Táctica",
+        "策略"
+    ],
+    "BEST_TIME": [
+        "Best Time",
+        "Meilleur Tour",
+        "Mejor Tiempo",
+        "最好的时"
+    ],
+    "BONUS": [
+        "Bonus",
+        "Prime",
+        "Prima",
+        "奖金"
+    ],
+    "LOADING": [
+        "Loading",
+        "Chargement",
+        "Cargando",
+        "脸书"
+    ],
+    "PAUSED": [
+        "Paused",
+        "En pause",
+        "En pausa",
+        "已暂停"
+    ],
+    "MENU": [
+        "MENU",
+        "MENU",
+        "MENÚ",
+        "菜单"
+    ],
+    "RETRY": [
+        "RETRY",
+        "RÉPÉTER",
+        "REPETIR",
+        "重试"
+    ],
+    "NEXT": [
+        "NEXT",
+        "PASSER",
+        "PASAR",
+        "下一个"
+    ],
+    "LEVEL": [
+        "LEVEL",
+        "NIVEAU",
+        "NIVEL",
+        "级别"
+    ],
+    "COMPLETE": [
+        "COMPLETE",
+        "COMPLET",
+        "COMPLETO",
+        "完成"
+    ],
+    "FAILED": [
+        "FAILED",
+        "ÉCHOUÉ",
+        "FALLADO",
+        "失败"
+    ],
+    "MB_OK": [
+        "OK",
+        "Accepter",
+        "Aceptar",
+        "接受"
+    ],
+    "MB_ABORT": [
+        "Abort",
+        "Avorter",
+        "Abortar",
+        "退出"
+    ],
+    "MB_RETRY": [
+        "Retry",
+        "Répéter",
+        "Repetir",
+        "重试"
+    ],
+    "MB_IGNORE": [
+        "Ignore",
+        "Ignorer",
+        "Ignorar",
+        "忽略"
+    ],
+    "MB_YES": [
+        "Yes",
+        "Oui",
+        "Sí",
+        "是"
+    ],
+    "MB_NO": [
+        "No",
+        "Non",
+        "No",
+        "无"
+    ],
+    "MB_CANCEL": [
+        "Cancel",
+        "Annuler",
+        "Cancelar",
+        "取消"
+    ],
+    "ENTER_COUPON_BELOW": [
+        "Please enter your coupon code below to redeem your goods.",
+        "S'il vous plaît entrer votre code-coupon ci-dessous pour racheter votre marchandise.",
+        "Meter su código-cupón abajo para obtener sus productos.",
+        "请在下面输入优惠券代码赎回你的商品."
+    ],
+    "LIKE_US_ON_FB": [
+        "Like us on Facebook",
+        "Aimez-nous sur Facebook",
+        "Nos Gustaría en Facebook",
+        "不可用"
+    ],
+    "FOLLOW_US_ON_TWITTER": [
+        "Follow us on Twitter",
+        "Suivez-nous sur Twitter",
+        "Siga con nosotros en Twitter",
+        "不可用"
+    ],
+    "TUT_MOVE": [
+        "Joystick to move",
+        "Manette pour déplacer",
+        "Palanca para mover",
+        "使用操纵杆移动"
+    ],
+    "TUT_JUMP": [
+        "Tap to jump",
+        "Appuyez pour sauter",
+        "Pulse para saltar",
+        "点击屏幕跳"
+    ],
+    "TUT_CHARGE": [
+        "Stand here to charge",
+        "Rester ici pour recharger",
+        "Párese aquí para cargar",
+        "站在这里机器人充电"
+    ],
+    "TUT_BATTERIES1": [
+        "Press",
+        "Appuyez",
+        "Presione",
+        "按下"
+    ],
+    "TUT_BATTERIES2": [
+        "to use batteries",
+        "pour utiliser piles",
+        "para utilizar baterías",
+        "使用电池"
+    ],
+    "TUT_HINTS": [
+        "Stand here for hints",
+        "Rester ici pour conseils",
+        "Párese aquí para consejos",
+        "站在这里的提示"
+    ],
+    "TUT_INTERACT1": [
+        "Stand here to interact",
+        "Rester ici pour interagir",
+        "Párese aquí para interactuar",
+        "站在这里进行交互"
+    ],
+    "TUT_INTERACT2A": [
+        "Press",
+        "Appuyez",
+        "Presione",
+        "按下"
+    ],
+    "TUT_INTERACT2B": [
+        "to use",
+        "pour utiliser",
+        "para utilizar",
+        "使用"
+    ],
+    "TUT_BAT_METER": [
+        "Keep your robot charged",
+        "Gardez votre robot chargé",
+        "Mantenga su robot cargado",
+        "保持你的机器人充电"
+    ],
+    "TUT_SHORT_CIRCUIT": [
+        "Be careful, water and power surges can fry your circuits.",
+        "Soyez prudent, l'eau et les surtensions peuvent faire frire vos circuits.",
+        "Tenga cuidado, el agua y las oleadas de potencia pueden freír sus circuitos.",
+        "小心, 水和电涌可能会烧坏电路."
+    ],
+    "TUT_BATTERY_DRAINED": [
+        "Find a charger before your battery runs out.",
+        "Trouvez un chargeur avant que la batterie ne soit épuisée.",
+        "Busque un cargador antes de que la batería se agote.",
+        "在电池电量耗尽前查找充电器."
+    ],
+    "REVIVE": [
+        "Revive",
+        "Relancer",
+        "Reanimar",
+        "复活"
+    ]
+}

@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 3015e53ae2e163045aa534a397e90fe6
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - backgroundTex: {instanceID: 0}
+  - levelButtonTex: {instanceID: 0}
+  - disabledGearTex: {instanceID: 0}
+  - enabledGearTex: {instanceID: 0}
+  - levelLockTex: {instanceID: 0}
+  - expertStarTex: {instanceID: 0}
+  - levelSelectTex: {instanceID: 0}
+  - backButtonTex: {instanceID: 0}
+  - tutorialTex: {instanceID: 0}
+  - spinningGearTex: {instanceID: 0}
+  - playButtonTex: {instanceID: 0}
+  - tutorialButtonTex: {instanceID: 0}
+  - quitButtonTex: {instanceID: 0}
+  - expertButtonBackgroundTex: {instanceID: 0}
+  - expertButtonSliderTex: {instanceID: 0}
+  - expterButtonIcon: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

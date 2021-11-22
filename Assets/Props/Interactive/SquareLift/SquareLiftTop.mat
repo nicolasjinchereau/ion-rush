@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: SquareLiftTop
+  m_Shader: {fileID: 4800000, guid: dea07d8e8e3b94028b60e593c37ff3b4, type: 3}
+  m_ShaderKeywords: PLAYER_SHADOW_ON VOLUME_SHADOWS_ON
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    OcclusionType: 0
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _LightVolume:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LightmapTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: ad1e2588be88cb84082f7c1a027f4991, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BakedShadows: 0
+    - _Highlight: 0
+    - _HighlightBrightness: 0.25
+    - _HighlightMix: 0.25
+    - _PlayerShadow: 1
+    - _RMS: 0.26938808
+    - _Shininess: 0.24328744
+    - _VolumeShadows: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _HighlightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LightmapCoords: {r: 0, g: 0, b: 1, a: 1}
+    - _SpecColor: {r: 1, g: 0.6764706, b: 0.6764706, a: 1}

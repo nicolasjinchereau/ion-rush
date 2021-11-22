@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &165596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 465596}
+  - component: {fileID: 11465596}
+  m_Layer: 0
+  m_Name: BasicGame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &465596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165596}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 23.162971, y: 0.66397095, z: 1.7968979}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11465596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a66226e59c5bc4f7fbf74a05925c644b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultState: 0
+  levelStart: {fileID: 0}
+  levelEnd: {fileID: 0}
+  playerPrefab: {fileID: 0}
+  backButton: {fileID: 0}
+  pauseButton: {fileID: 0}
+  gearCounter: {fileID: 0}
+  batteryMeter: {fileID: 0}
+  coinCounter: {fileID: 0}
+  batteryCounter: {fileID: 0}
+  pauseOverlay: {fileID: 0}
+  shortCircuit: {fileID: 0}
+  mainJoystick: {fileID: 0}
+  jumpArea: {fileID: 0}
+  usePanel: {fileID: 0}
+  gamePassView: {fileID: 0}
+  gameFailView: {fileID: 0}
+  onGameStart:
+    m_PersistentCalls:
+      m_Calls: []
+  isFirstLevel: 0

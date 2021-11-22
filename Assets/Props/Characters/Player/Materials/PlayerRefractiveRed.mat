@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PlayerRefractiveRed
+  m_Shader: {fileID: 4800000, guid: c8794543ce32f0645a9500235ca6007c, type: 3}
+  m_ShaderKeywords: VOLUME_SHADOWS_ON
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 4000
+  stringTagMap:
+    OcclusionType: 1
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: a4b42b3ed67395347a518444bb361537, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LightmapTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 008dd8be0ef2b4890a4b3ccab470e9e7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: c701d8bbcea7c2c4abbf9c22ee81138a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ToonShade:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VisibilityTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BakedShadows: 0
+    - _Cutoff: 0.6182657
+    - _EdgeSize: 0.08
+    - _EmissionAmount: 1
+    - _Flatten: 0
+    - _GrabOffset: 0.8
+    - _Highlight: 0
+    - _HighlightMix: 0.75
+    - _OcclusionMax: 0.3
+    - _Outline: 0.002
+    - _OverlayOpacity: 0.237
+    - _Phase: 1
+    - _PlayerShadow: 0
+    - _RMS: 0.62111497
+    - _Shininess: 0.58171135
+    - _VisibilityThreshold: 0.4
+    - _VolumeShadows: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EdgeColor: {r: 9.41852, g: 0.9922178, b: 0, a: 1}
+    - _Emission: {r: 0, g: 0.10578103, b: 0.5849056, a: 0}
+    - _EmissionColor: {r: 0.09433961, g: 0.05633486, b: 0, a: 0}
+    - _HighlightColor: {r: 1, g: 0, b: 0, a: 1}
+    - _LightmapCoords: {r: 0, g: 0, b: 1, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.5, g: 0.37867647, b: 0.37867647, a: 1}
+  m_BuildTextureStacks: []

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Porthole
+  m_Shader: {fileID: 4800000, guid: dea07d8e8e3b94028b60e593c37ff3b4, type: 3}
+  m_ShaderKeywords: PLAYER_SHADOW_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 108f027e33290cf45ba7220928b7caf6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Highlight: 0
+    - _HighlightRimMix: 0.775
+    - _HighlightRimPower: 2
+    - _PlayerShadow: 1
+    - _RMS: 0.6256318
+    - _Shininess: 0.6540337
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _HighlightColor: {r: 0, g: 0.83333325, b: 1, a: 1}
+    - _SpecColor: {r: 1, g: 0.6838235, b: 0.6838235, a: 1}
+  m_BuildTextureStacks: []
