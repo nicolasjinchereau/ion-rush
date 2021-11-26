@@ -160,6 +160,9 @@ public class BasicGameState : GameState
 
     IEnumerator _startGame()
     {
+        RenderManager.renderMode = CameraRenderMode.Colorful;
+        RenderManager.FadeToColor(Color.clear, 1.0f);
+
         if(!Player.exists)
         {
             Instantiate(playerPrefab);
@@ -169,9 +172,6 @@ public class BasicGameState : GameState
             Player.rotation = levelStart.spawnPosition.rotation;
             
             CameraController.that.FollowPlayer(0);
-
-            RenderManager.renderMode = CameraRenderMode.Colorful;
-            RenderManager.FadeToColor(Color.clear, 1.0f);
             
             yield return new WaitForSeconds(0.5f);
 
@@ -209,10 +209,6 @@ public class BasicGameState : GameState
             Player.that.body.angularVelocity = Vector3.zero;
             
             levelStart.doors.isOpen = false;
-        }
-        else
-        {
-            RenderManager.FadeToColor(Color.clear, 0.1f);
         }
 
         Player.that.anim.CrossFade("Idle");
