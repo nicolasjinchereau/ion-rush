@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 public class GameMenuButton : MonoBehaviour
 {
@@ -49,7 +50,7 @@ public class GameMenuButton : MonoBehaviour
 
     private void Update()
     {
-        if (Gamepad.current.startButton.wasPressedThisFrame)
+        if (Gamepad.current.WasPressedThisFrame(GamepadButton.Start))
             OnPress();
     }
 }

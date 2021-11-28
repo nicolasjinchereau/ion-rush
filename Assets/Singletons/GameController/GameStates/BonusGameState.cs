@@ -120,8 +120,8 @@ public class BonusGameState : GameState
             return;
         
         int remaining = this.timeRemaining;
-
-        if(Keyboard.current.kKey.wasReleasedThisFrame)
+        
+        if(Keyboard.current.WasReleasedThisFrame(Key.K))
             remaining = 0;
 
         gameView.bonusTimer.seconds = remaining;

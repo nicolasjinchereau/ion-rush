@@ -24,7 +24,8 @@ public class ScreenShotter : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.enterKey.wasReleasedThisFrame)
+        
+        if (Keyboard.current.WasReleasedThisFrame(Key.Enter))
         {
             if(!screenshotMode)
             {
@@ -46,8 +47,8 @@ public class ScreenShotter : MonoBehaviour
 
             Debug.Log("image saved: " + filename);
         }
-
-        if (Keyboard.current.endKey.wasReleasedThisFrame)
+        
+        if (Keyboard.current.WasReleasedThisFrame(Key.End))
         {
             if(screenshotMode)
             {

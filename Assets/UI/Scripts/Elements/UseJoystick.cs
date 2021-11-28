@@ -15,11 +15,11 @@ public class UseJoystick : Joystick
     public Image arrowTop;
     public Image arrowBottom;
 
-    public override StickControl Stick => Gamepad.current.rightStick;
-    public override KeyControl LeftDirKey => Keyboard.current.leftArrowKey;
-    public override KeyControl RightDirKey => Keyboard.current.rightArrowKey;
-    public override KeyControl ForwardDirKey => Keyboard.current.upArrowKey;
-    public override KeyControl BackwardDirKey => Keyboard.current.downArrowKey;
+    public override GamepadControl StickControl => GamepadControl.RightStick;
+    public override Key LeftDirKey => Key.LeftArrow;
+    public override Key RightDirKey => Key.RightArrow;
+    public override Key ForwardDirKey => Key.UpArrow;
+    public override Key BackwardDirKey => Key.DownArrow;
 
     Coroutine arrowAnimation;
 

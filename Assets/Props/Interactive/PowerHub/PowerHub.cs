@@ -54,7 +54,7 @@ public class PowerHub : MonoBehaviour
     private void Update()
     {
 #if UNITY_EDITOR
-        if (Keyboard.current.pKey.wasReleasedThisFrame)
+        if (Keyboard.current.WasReleasedThisFrame(Key.P))
         {
             StartCoroutine(DoShortCircuit(false));
         }

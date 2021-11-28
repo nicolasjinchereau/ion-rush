@@ -51,7 +51,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BakedShadows: 0
-    - _Cutoff: 0.6182657
+    - _Cutoff: 0
     - _EdgeSize: 0.08
     - _EmissionAmount: 1
     - _Flatten: 0

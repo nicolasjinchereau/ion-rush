@@ -54,7 +54,7 @@ public class SettingsJoystick : Selectable, IPointerDownHandler, IPointerUpHandl
     {
         if(Time.time >= nextAdjustmentTime)
         {
-            var dir = Gamepad.current.dpad.ReadValue();
+            var dir = Gamepad.current.GetDirection(GamepadControl.DPad);
             if (dir.x < -0.25)
             {
                 Limit = Mathf.Clamp(Limit - 0.1f, Defaults.minJoystickOffset, Defaults.maxJoystickOffset);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
 
 public class UseButton : MonoBehaviour
@@ -28,7 +29,7 @@ public class UseButton : MonoBehaviour
 
     public void Update()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame || Gamepad.current.xButton.wasPressedThisFrame)
+        if (Keyboard.current.WasPressedThisFrame(Key.E) || Gamepad.current.WasPressedThisFrame(GamepadButton.X))
         {
             OnPress();
         }

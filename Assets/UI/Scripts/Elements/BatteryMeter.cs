@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
 
 public class BatteryMeter : MonoBehaviour
@@ -63,9 +64,9 @@ public class BatteryMeter : MonoBehaviour
             col.a *= alpha;
             bars[i].color = col;
         }
-
-        if(batteryButton.interactable &&
-            (Keyboard.current.bKey.wasPressedThisFrame || Gamepad.current.bButton.wasPressedThisFrame))
+        
+        if (batteryButton.interactable &&
+            (Keyboard.current.WasPressedThisFrame(Key.B) || Gamepad.current.WasPressedThisFrame(GamepadButton.B)))
         {
             OnBatteryPressed();
         }

@@ -34,11 +34,11 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         get => pointerID != int.MinValue;
     }
 
-    public virtual StickControl Stick => Gamepad.current.leftStick;
-    public virtual KeyControl LeftDirKey => Keyboard.current.aKey;
-    public virtual KeyControl RightDirKey => Keyboard.current.dKey;
-    public virtual KeyControl ForwardDirKey => Keyboard.current.wKey;
-    public virtual KeyControl BackwardDirKey => Keyboard.current.sKey;
+    public virtual GamepadControl StickControl => GamepadControl.LeftStick;
+    public virtual Key LeftDirKey => Key.A;
+    public virtual Key RightDirKey => Key.D;
+    public virtual Key ForwardDirKey => Key.W;
+    public virtual Key BackwardDirKey => Key.S;
 
     protected virtual void OnEnable()
     {
@@ -130,11 +130,11 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     {
         if (!IsDown)
         {
-            bool l = LeftDirKey.isPressed;
-            bool r = RightDirKey.isPressed;
-            bool f = ForwardDirKey.isPressed;
-            bool b = BackwardDirKey.isPressed;
-            Vector2 stick = Stick.ReadValue();
+            bool l = Keyboard.current.IsPressed(LeftDirKey);
+            bool r = Keyboard.current.IsPressed(RightDirKey);
+            bool f = Keyboard.current.IsPressed(ForwardDirKey);
+            bool b = Keyboard.current.IsPressed(BackwardDirKey);
+            Vector2 stick = Gamepad.current.GetDirection(StickControl);
 
             Vector3 dir = Vector3.zero;
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 public class JumpArea : MonoBehaviour, IPointerDownHandler
 {
@@ -15,8 +16,8 @@ public class JumpArea : MonoBehaviour, IPointerDownHandler
 
     private void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame ||
-            Gamepad.current.aButton.wasPressedThisFrame)
+        if (Mouse.current.WasPressedThisFrame(MouseButton.LeftButton) ||
+            Gamepad.current.WasPressedThisFrame(GamepadButton.A))
         {
             Player.that.DoJump();
         }

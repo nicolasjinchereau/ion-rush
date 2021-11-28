@@ -119,9 +119,9 @@ public class BasicGameState : GameState
             return;
 
 #if UNITY_EDITOR
-        if(Keyboard.current.kKey.wasReleasedThisFrame)
+        if(Keyboard.current.WasReleasedThisFrame(Key.K))
             Player.battery = 0;
-        else if(Keyboard.current.yKey.wasReleasedThisFrame) {
+        else if(Keyboard.current.WasReleasedThisFrame(Key.Y)) {
             gameView.gearCounter.gearCount = 2;
             gameView.coinCounter.coinCount = 350;
             levelEnd.playerDidExit = true;
