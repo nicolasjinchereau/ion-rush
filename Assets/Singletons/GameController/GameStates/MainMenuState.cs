@@ -35,6 +35,10 @@ public class MainMenuState : GameState
         RenderManager.FadeToColor(Color.clear, 1.0f);
     }
 
+    public void QuitGame() {
+        Application.Quit();
+    }
+
     public void SwitchToLevels() {
         eventSystem.SetSelectedGameObject(levelPanelSelection);
         StartCoroutine(SwitchToPanelCoop(levelPanel, new Vector3(0, homePanel.rectTransform.rect.height)));
