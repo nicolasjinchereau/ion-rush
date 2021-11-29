@@ -24,7 +24,7 @@ Properties
 
 SubShader
 {
-    Tags { "Queue" = "AlphaTest" "RenderType" = "TransparentCutout" }
+    Tags { "Queue" = "AlphaTest" "RenderType" = "TransparentCutout" "ReceivePlayerShadow"="True" }
     
     LOD 200
     Blend Off
@@ -88,8 +88,7 @@ SubShader
     void vert(inout appdata v, out Input o)
     {
         UNITY_INITIALIZE_OUTPUT(Input, o);
-        float3 worldPos = mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1.0)).xyz;
-        PLAYER_SHADOW_VERT_TO_FRAG(worldPos, v.normal, o)
+        PLAYER_SHADOW_VERT_TO_FRAG(v.vertex, v.normal, o)
 
         o.normal = mul(unity_ObjectToWorld, float4(SCALED_NORMAL, 0.0)).xyz;
         o.normal = mul(unity_MatrixV, float4(o.normal, 0.0)).xyz;

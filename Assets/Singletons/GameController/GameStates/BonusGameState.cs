@@ -121,8 +121,12 @@ public class BonusGameState : GameState
         
         int remaining = this.timeRemaining;
         
+#if UNITY_EDITOR
         if(Keyboard.current.WasReleasedThisFrame(Key.K))
             remaining = 0;
+        else if (Keyboard.current.WasReleasedThisFrame(Key.Y))
+            gameView.bonusGearCounter.gearCount = bonusGearQuota;
+#endif
 
         gameView.bonusTimer.seconds = remaining;
 
@@ -147,7 +151,6 @@ public class BonusGameState : GameState
         Player.useBattery = false;
         Player.battery = 100;
         Player.that.anim.Play("Default");
-        Player.that.shadowCaster.SetActive(false);
         Player.that.slipstreamBadge.Online = true;
 
         yield return new WaitForSeconds(1.0f);
@@ -190,7 +193,6 @@ public class BonusGameState : GameState
         RenderManager.renderEffect = RenderEffect.None;
 
         Player.that.SetMaterial(playerNormalMaterial);
-        Player.that.shadowCaster.SetActive(true);
         yield return new WaitForSeconds(1.0f);
 
         Util.PlayClip(blipSound, 0.5f);

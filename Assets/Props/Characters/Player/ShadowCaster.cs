@@ -42,11 +42,11 @@ public class ShadowCaster : MonoBehaviour
 
     private void UpdateResources()
     {
-        playerCam.depth = -1000;
+        playerCam.depth = -100;
         playerCam.eventMask = 0;
-        worldCam.depth = -1000;
+        worldCam.depth = -100;
         worldCam.eventMask = 0;
-        
+
         int sz = Mathf.Max(targetSize, 16);
 
         if(!playerDepth)
@@ -70,10 +70,12 @@ public class ShadowCaster : MonoBehaviour
         }
 
         worldCam.targetTexture = worldDepth;
+        worldCam.SetReplacementShader(Shader.Find("Custom/PlayerShadowReceiver"), "ReceivePlayerShadow");
+        
         shadowFalloff = Mathf.Clamp01(shadowFalloff);
     }
     
-    private void OnPostRender()
+    private void OnPreRender()
     {
         var bias = new Matrix4x4() {
             m00 = 0.5f, m01 = 0,    m02 = 0,    m03 = 0.5f,

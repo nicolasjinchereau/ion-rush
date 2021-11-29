@@ -145,8 +145,6 @@ public class Player : MonoBehaviour
     public Rigidbody body;
     public Animation anim;
     public SlipstreamBadge slipstreamBadge;
-    public ParticleBomb particleBomb;
-    public GameObject goldGear;
     public ShadowCaster shadowCaster;
     public MeshRenderer[] meshRenderers;
 

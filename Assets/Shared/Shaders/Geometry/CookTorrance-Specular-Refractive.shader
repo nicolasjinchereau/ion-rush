@@ -7,16 +7,8 @@ Shader "Geometry/Cook-Torrance Specular Refractive"
         _Shininess ("Shininess", Range (0.03, 1)) = 0.078125
         _RMS("BDF RMS (Specular spread)",Range(0.001, 1)) = 0.70710678118654752440084436210485
         _MainTex ("Base (RGB) Gloss (A)", 2D) = "white" {}
-        
         _Phase ("Phase", Range(0, 1)) = 0.0
         _GrabOffset ("Grab Offset", Range(0, 2.0)) = 0.5
-
-        //_HighlightColor ("Highlight Color", Color) = (1, 1, 1, 1)
-        //_HighlightMix ("Highlight Mix", Range (0, 1)) = 0.5
-        //_Highlight ("Highlight", Range (0, 1)) = 0.0
-        //_VisibilityTex ("Visibility (R)", 2D) = "white" {}
-        //_VisibilityThreshold ("Visibility Threshold", Range (0, 1)) = 0.3
-        //_OverlayOpacity ("Overlay Opacity", Range (0, 1)) = 0.7
     }
 
     SubShader

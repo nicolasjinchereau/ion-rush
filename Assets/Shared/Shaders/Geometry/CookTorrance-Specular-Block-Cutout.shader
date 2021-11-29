@@ -54,13 +54,11 @@ SubShader {
     {
         float2 uv_MainTex;
         float2 uv_MaskTex;
-        PLAYER_SHADOW_V2S
     };
 
     void vert(inout appdata v, out Input o)
     {
         UNITY_INITIALIZE_OUTPUT(Input, o);
-        float3 worldPos = mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1.0)).xyz;
     }
 
     void surf(Input IN, inout SurfaceOutputPlayerShadow o)

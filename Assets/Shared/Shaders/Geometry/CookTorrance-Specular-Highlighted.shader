@@ -17,7 +17,7 @@ Properties {
 
 SubShader
 {
-    Tags { "RenderType"="Opaque" }
+    Tags { "RenderType"="Opaque" "ReceivePlayerShadow"="True" }
     LOD 200
     
     CGPROGRAM
@@ -63,8 +63,7 @@ SubShader
 
     void vert(inout appdata v, out Input o) {
         UNITY_INITIALIZE_OUTPUT(Input, o);
-        float3 worldPos = mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1.0)).xyz;
-        PLAYER_SHADOW_VERT_TO_FRAG(worldPos, v.normal, o);
+        PLAYER_SHADOW_VERT_TO_FRAG(v.vertex, v.normal, o)
     }
 
     void surf(Input IN, inout SurfaceOutputPlayerShadow o)

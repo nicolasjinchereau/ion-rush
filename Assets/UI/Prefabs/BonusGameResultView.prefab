@@ -585,6 +585,8 @@ MonoBehaviour:
   expertStar: {fileID: 6761111244592330220}
   quitButton: {fileID: 914211464122902596}
   retryButton: {fileID: 914211464268236676}
+  levelPassSound: {fileID: 8300000, guid: 501bf1e2a8bd9b541a103eed202246ba, type: 3}
+  levelFailSound: {fileID: 8300000, guid: 3df95348d3b82464ba3238635249c3e5, type: 3}
 --- !u!225 &2513975021085731747
 CanvasGroup:
   m_ObjectHideFlags: 0

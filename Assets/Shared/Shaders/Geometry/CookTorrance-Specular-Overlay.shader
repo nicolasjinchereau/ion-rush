@@ -67,7 +67,6 @@ Shader "Geometry/Cook-Torrance Specular Overlay"
         void vert(inout appdata v, out Input o)
         {
             UNITY_INITIALIZE_OUTPUT(Input, o);
-            float3 worldPos = mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1.0)).xyz;
         }
         
         void surf(Input IN, inout SurfaceOutput o)

@@ -24,6 +24,9 @@ public class BonusGameResultView : MonoBehaviour
     public GameObject quitButton;
     public GameObject retryButton;
 
+    public AudioClip levelPassSound;
+    public AudioClip levelFailSound;
+
     GameObject oldSelection;
 
     private void OnEnable()
@@ -60,6 +63,11 @@ public class BonusGameResultView : MonoBehaviour
         expertStar.SetActive(expertPassed);
 
         gameObject.SetActive(true);
+
+        if(passed)
+            Util.PlayClip(levelPassSound, 0.4f);
+        else
+            Util.PlayClip(levelFailSound, 0.8f);
 
         StartCoroutine(DoLayout());
     }

@@ -34,11 +34,30 @@ inline float GetPlayerShadowAtten(
   float4x4 _WorldMatrix; \
   float4 _PlayerShadowParams; // bias, strength, falloff, falloff-power
 
-  #define PLAYER_SHADOW_V2S float4 playerCoords; float4 worldCoords; float playerShadowAtten;
-  #define PLAYER_SHADOW_SURFACE_OUTPUT float4 playerCoords; float4 worldCoords; float playerShadowAtten;
-  #define PLAYER_SHADOW_ATTEN(v2f) GetPlayerShadowAtten(v2f.playerCoords, v2f.worldCoords, v2f.playerShadowAtten, _PlayerDepthTex, _WorldDepthTex, _PlayerShadowParams)
-  #define PLAYER_SHADOW_VERT_TO_FRAG(worldPos, normal, output) output.playerCoords = mul(_PlayerMatrix, float4(worldPos, 1.0)); output.worldCoords = mul(_WorldMatrix, float4(worldPos, 1.0)); output.playerShadowAtten = saturate(normal.y);
-  #define PLAYER_SHADOW_SURFACE_INOUT(input, output) output.playerCoords = input.playerCoords; output.worldCoords = input.worldCoords; output.playerShadowAtten = input.playerShadowAtten;
+  #define PLAYER_SHADOW_V2S \
+    float4 playerCoords; \
+    float4 worldCoords; \
+    float playerShadowAtten;
+
+  #define PLAYER_SHADOW_SURFACE_OUTPUT \
+    float4 playerCoords; \
+    float4 worldCoords; \
+    float playerShadowAtten;
+
+  #define PLAYER_SHADOW_ATTEN(v2f) \
+    GetPlayerShadowAtten(v2f.playerCoords, v2f.worldCoords, v2f.playerShadowAtten, _PlayerDepthTex, _WorldDepthTex, _PlayerShadowParams)
+
+  #define PLAYER_SHADOW_VERT_TO_FRAG(vertex, normal, output) \
+    float3 __playerShadow_worldPos = mul(unity_ObjectToWorld, float4(vertex.xyz, 1.0)).xyz; \
+    float3 __playerShadow_worldNormal = normalize(mul(float4(normal, 0.0), unity_WorldToObject).xyz); \
+    output.playerCoords = mul(_PlayerMatrix, float4(__playerShadow_worldPos, 1.0)); \
+    output.worldCoords = mul(_WorldMatrix, float4(__playerShadow_worldPos, 1.0)); \
+    output.playerShadowAtten = saturate(__playerShadow_worldNormal.y);
+
+  #define PLAYER_SHADOW_SURFACE_INOUT(input, output) \
+    output.playerCoords = input.playerCoords; \
+    output.worldCoords = input.worldCoords; \
+    output.playerShadowAtten = input.playerShadowAtten;
 #else
   #define PLAYER_SHADOW_UNIFORMS
   #define PLAYER_SHADOW_V2S
