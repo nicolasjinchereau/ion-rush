@@ -21,7 +21,7 @@ public class Lift : Useable
 
     private float liftHeight;
     private float accelDuration  = 1.0f; //2.0f;
-    private float steadyRate     = 0.5f;
+    //private float steadyRate     = 0.5f;
     private float accelRate;
     private float accelDist;
     private float steadyDist;
@@ -41,10 +41,10 @@ public class Lift : Useable
         liftState = isRaised ? 1.0f : 0.0f;
 
         liftHeight = liftPos1.y - liftPos0.y;
-        accelRate = steadyRate / accelDuration;
+        accelRate = liftMaxSpeed / accelDuration;
         accelDist = CalcDist(accelRate, accelDuration);
         steadyDist = liftHeight - accelDist * 2.0f;
-        steadyDuration = steadyDist / steadyRate;
+        steadyDuration = steadyDist / liftMaxSpeed;
         totalDuration = accelDuration + accelDuration + steadyDuration;
         normalAccelDuration = accelDuration / totalDuration;
         normalSteadyDuration = steadyDuration / totalDuration;

@@ -16,7 +16,7 @@ public class JumpArea : MonoBehaviour, IPointerDownHandler
 
     private void Update()
     {
-        if (Mouse.current.WasPressedThisFrame(MouseButton.LeftButton) ||
+        if (Keyboard.current.WasPressedThisFrame(Key.Space) ||
             Gamepad.current.WasPressedThisFrame(GamepadButton.A))
         {
             Player.that.DoJump();

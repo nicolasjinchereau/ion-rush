@@ -18,13 +18,14 @@ Properties
     [Header(Refraction)][Space(10)]
     _GrabOffset("Grab Offset", Range(-1.0, 1.0)) = 0.0
     _Flatten ("Flatten", Range(0, 1)) = 0.0
-    [Header(Shadow)][Space(10)]
-    [Toggle(PLAYER_SHADOW_ON)] _PlayerShadow ("Player Shadow", Float) = 0
 }
 
 SubShader
 {
-    Tags { "Queue" = "AlphaTest" "RenderType" = "TransparentCutout" "ReceivePlayerShadow"="True" }
+    Tags {
+        "Queue" = "AlphaTest"
+        "RenderType" = "TransparentCutout"
+    }
     
     LOD 200
     Blend Off
@@ -59,11 +60,8 @@ SubShader
     float _Cutoff;
     float _Flatten;
 
-    PLAYER_SHADOW_UNIFORMS
-
     float4 LightingCookTorrance(SurfaceOutputPlayerShadow s, float3 lightDir, float3 viewDir, float atten)
     {
-        atten = min(atten, PLAYER_SHADOW_ATTEN(s));
         return COOK_TORRANCE(s, _LightColor0, _SpecColor, _RMS, lightDir, viewDir, atten);
     }
     
@@ -79,8 +77,6 @@ SubShader
     {
         float2 uv_Noise;
         float2 uv_MainTex;
-        PLAYER_SHADOW_V2S
-
         float3 normal;
         float4 grabPos;
     };
@@ -88,7 +84,6 @@ SubShader
     void vert(inout appdata v, out Input o)
     {
         UNITY_INITIALIZE_OUTPUT(Input, o);
-        PLAYER_SHADOW_VERT_TO_FRAG(v.vertex, v.normal, o)
 
         o.normal = mul(unity_ObjectToWorld, float4(SCALED_NORMAL, 0.0)).xyz;
         o.normal = mul(unity_MatrixV, float4(o.normal, 0.0)).xyz;
@@ -124,7 +119,6 @@ SubShader
         o.Gloss = tex.a;
         o.Specular = _Shininess;
         o.Emission = lerp(bg.rgb, _EdgeColor * edge, step(0, noise - _Cutoff));
-        PLAYER_SHADOW_SURFACE_INOUT(IN, o)
     }
     ENDCG
     }

@@ -152,6 +152,7 @@ public class BonusGameState : GameState
         Player.battery = 100;
         Player.that.anim.Play("Default");
         Player.that.slipstreamBadge.Online = true;
+        Player.that.shadowCaster.SetActive(false);
 
         yield return new WaitForSeconds(1.0f);
 
@@ -207,6 +208,7 @@ public class BonusGameState : GameState
 
         CameraController.that.FollowPlayer();
         yield return new WaitForSeconds(1.0f);
+        Player.that.shadowCaster.SetActive(true);
         yield return new WaitForSeconds(0.25f);
 
         gameView.bonusGearCounter.gearQuota = bonusGearQuota;

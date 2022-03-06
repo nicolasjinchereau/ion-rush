@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: -0.50000125, y: -0.4999986, z: -0.4999987, w: 0.50000143}
   m_LocalPosition: {x: 2.2940001, y: 2.48, z: -0.11344}
   m_LocalScale: {x: 1.5000007, y: 1.5000007, z: 1.5000007}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -52,9 +53,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +83,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &7342547259185699987
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -86,7 +91,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8897586682956092016}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 26faabded9d10a04d9cc3aa353cdc4f1, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

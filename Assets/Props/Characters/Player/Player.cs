@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public enum BatteryDrainReason
 {
@@ -77,11 +78,6 @@ public class Player : MonoBehaviour
         set { that._takeDamage = value; }
     }
 
-    bool _isGrounded = false;
-    public static bool isGrounded {
-        get { return that._isGrounded; }
-    }
-
     public bool IsCharging {
         get { return isCharging; }
     }
@@ -142,11 +138,15 @@ public class Player : MonoBehaviour
     public AudioSource powerDownSound;
     public AudioSource moveSound;
     public CapsuleCollider col;
-    public Rigidbody body;
     public Animation anim;
+    public Rigidbody body;
+    public Rigidbody wheelBody;
+    public ConfigurableJoint wheelJoint;
+    public Collider wheelCollider;
     public SlipstreamBadge slipstreamBadge;
     public ShadowCaster shadowCaster;
     public MeshRenderer[] meshRenderers;
+    public Material robotMaterial;
 
     private const int batteryWarningThreshold = 25;
     private bool didHaveLowBattery = false;
@@ -165,58 +165,41 @@ public class Player : MonoBehaviour
     // layers
     [System.NonSerialized]
     public int playerLayer;
-    private int notPlayerLayerMask;
     private int waterLayer;
-    private int velocityAdderLayer;
     private int bulletsLayer;
-    private int plasmaShellLayer;
     private int chargeLayer;
     private int chargeFieldLayer;
     private int laserLayer;
 
-    // jumping
-    public float playerTurnSpeed = 30.0f;
-    public float maxSpeed = 4.0f;
-    public float maxAirSpeed = 3.0f;
-    public float jumpSpeed = 8.0f;
-    public float gravity = 20;
-    const float extraJumpDist = 0.02f;
-    const float maxJumpSlope = 45.0f;
-    public float jumpTimeAllowance = 0.1f;
-    float wheelRadius = 0;
-    bool jumpPressed = false;
-    bool didJump = false;
-    Vector3 _lastDirection = Vector3.zero;
-    float lastGrounded = 0;
-    
-    // Robot should never travel faster than this.
-    const float clampSpeed = 20;
+    const float MaxMoveSpeed = 4.0f;
+    const float MaxAirSpeed = 4.0f;
+    const float MaxJumpSlope = 45.0f;
+    const float AngularVelocityFactor = 19.0f;
+    const float JumpImpulse = 12.91f;
+    const float JumpTimeAllowance = 0.1f;
 
-    public Material robotMaterial;
-    
-    Collider[] overlaps = new Collider[16];
-    RaycastHit[] hits = new RaycastHit[16];
+    bool grounded = true;
+    bool jumpPressed = false;
+    Vector3 lastDirection = Vector3.zero;
+    float allowLandingSound = 0;
+    float lastGrounded = float.MinValue;
 
     private void Awake()
     {
+#if !UNITY_EDITOR
+        drainBatteryOverTime = true;
+#endif
         that = this;
 
         robotMaterial.SetOverrideTag("OcclusionType", "1");
         robotMaterial.SetFloat("_Highlight", 0);
         
         playerLayer = LayerMask.NameToLayer("Player");
-        notPlayerLayerMask = ~(1 << playerLayer);
         waterLayer = LayerMask.NameToLayer("Water");
-        velocityAdderLayer = LayerMask.NameToLayer("VelocityAdder");
         bulletsLayer = LayerMask.NameToLayer("Bullets");
-        plasmaShellLayer = LayerMask.NameToLayer("PlasmaShell");
         chargeLayer = LayerMask.NameToLayer("Charger");
         chargeFieldLayer = LayerMask.NameToLayer("ChargeField");
         laserLayer = LayerMask.NameToLayer("Laser");
-
-        wheelRadius = col.radius * col.transform.lossyScale.x * 0.99f;
-
-        Physics.gravity = Vector3.down * gravity;
 
         body.velocity = Vector3.zero;
         body.angularVelocity = Vector3.zero;
@@ -239,34 +222,164 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        //float mag = _direction.magnitude;
-        //moveSound.pitch = mag;
-        //moveSound.volume = 0.05f + (1.0f - Mathf.Pow(mag, 6)) * 0.05f;
-        
-        // update animations
-        if(!didJump)
+        if(grounded)
         {
-            if(isCharging || isInChargeField)
-            {
+            if(isCharging || isInChargeField) {
                 anim.CrossFade("Charging");
             }
-            else if(_direction.sqrMagnitude > float.Epsilon)
-            {
+            else if(_direction.sqrMagnitude > 10e-6f) {
                 anim.CrossFade("Moving");
             }
-            else
-            {
+            else {
                 anim.CrossFade("Idle");
             }
         }
 
-        // update battery
-        if(isCharging || isInChargeField)
+        UpdateBatteryState();
+    }
+    
+    void FixedUpdate()
+    {
+        if(grounded)
         {
+            float oldLength = lastDirection.magnitude;
+            float newLength = _direction.magnitude;
+
+            bool doPuff = false;
+
+            if((newLength - oldLength) > 0.2f)
+                doPuff = true;
+
+            if(oldLength > 0.01f && newLength > 0.01f && Vector3.Angle(lastDirection, _direction) > 60.0f)
+                doPuff = true;
+
+            if(doPuff)
+                dust.Emit();
+        }
+        
+        lastDirection = _direction;
+
+        // enable or disable wheel drive
+        if(grounded)
+        {
+            var slerpDrive = wheelJoint.slerpDrive;
+            slerpDrive.positionDamper = 10000;
+            wheelJoint.slerpDrive = slerpDrive;
+        }
+        else
+        {
+            var slerpDrive = wheelJoint.slerpDrive;
+            slerpDrive.positionDamper = 0;
+            wheelJoint.slerpDrive = slerpDrive;
+        }
+
+        // update player body and wheel drive direction
+        if (_direction.sqrMagnitude > 10e-6f)
+        {
+            var bodyRot = Quaternion.LookRotation(_direction.normalized, Vector3.up);
+            body.MoveRotation(bodyRot);
+
+            var worldAngularVelocity = new Vector3(-_direction.z, 0, _direction.x) * AngularVelocityFactor;
+            var angularVelocity = wheelBody.rotation.Inverse() * worldAngularVelocity;
+            wheelJoint.targetAngularVelocity = angularVelocity;
+        }
+        else
+        {
+            wheelJoint.targetAngularVelocity = Vector3.zero;
+        }
+        
+        // add airborn propulsion
+        if(!grounded)
+        {
+            Vector3 vel = body.velocity;
+
+            if (_direction.sqrMagnitude > 10e-6f)
+            {
+                var inputSpeed = _direction.magnitude * MaxAirSpeed;
+                var projectedSpeed = Mathf.Max(0.0f, Vector3.Dot(new Vector3(vel.x, 0, vel.z), _direction.normalized));
+                var targetSpeed = Mathf.Max(inputSpeed, projectedSpeed);
+                var targetVelocity = _direction.normalized * targetSpeed;
+                vel = new Vector3(targetVelocity.x, vel.y, targetVelocity.z);
+            }
+            
+            float linearDampening = 0.5f;
+            float damp = Mathf.Clamp01(1.0f - linearDampening * Time.fixedDeltaTime);
+            vel = new Vector3(vel.x * damp, vel.y, vel.z * damp);
+
+            body.velocity = vel;
+        }
+
+        // do jump
+        if(grounded)
+            lastGrounded = Time.time;
+        
+        if(jumpPressed && (Time.time - lastGrounded) <= JumpTimeAllowance)
+        {
+            SharedSounds.jump.Play();
+            anim["Jump"].time = 0.3f;
+            anim.CrossFade("Jump");
+            lastGrounded = float.MinValue;
+            body.AddForce(Vector3.up * JumpImpulse, ForceMode.Impulse);
+        }
+
+        // only valid for one update
+        grounded = false;
+        jumpPressed = false;
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        UpdateGroundedState(collision);
+    }
+
+    private void OnCollisionStay(Collision collision) {
+        UpdateGroundedState(collision);
+    }
+
+    private void UpdateGroundedState(Collision collision)
+    {
+        if (!grounded)
+        {
+            foreach(var contact in collision.contacts)
+            {
+                if(contact.thisCollider != wheelCollider)
+                    continue;
+
+                var floorSlope = Vector3.Angle(contact.normal, Vector3.up);
+                if (floorSlope < MaxJumpSlope)
+                {
+                    if(Time.time >= allowLandingSound)
+                    {
+                        SharedSounds.land.Play();
+                        allowLandingSound = Time.time + 0.2f;
+                    }
+
+                    grounded = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    void OnEnable()
+    {
+        body.constraints = RigidbodyConstraints.FreezeRotation;
+        allowLandingSound = Time.time + 0.2f;
+    }
+
+    void OnDisable()
+    {
+        body.velocity = Vector3.zero;
+        body.angularVelocity = Vector3.zero;
+        body.constraints = RigidbodyConstraints.FreezeAll & ~RigidbodyConstraints.FreezePositionY;
+        robotMaterial.SetFloat("_Highlight", 0);
+    }
+
+    void UpdateBatteryState()
+    {
+        if(isCharging || isInChargeField) {
             ChargeBattery(Difficulty.batteryChargeSpeed * Time.deltaTime);
         }
-        else if(useBattery && drainBatteryOverTime)
-        {
+        else if(useBattery && drainBatteryOverTime) {
             DrainBattery(Difficulty.batteryDrainSpeed * Time.deltaTime, BatteryDrainReason.Usage);
         }
 
@@ -372,7 +485,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-    
+
     public IEnumerator _shutDown(bool isDamaged)
     {
         this.enabled = false;
@@ -424,341 +537,6 @@ public class Player : MonoBehaviour
         this.enabled = enablePlayer;
     }
 
-    [System.Obsolete]
-    private IEnumerator _ShortCircuitAndDie()
-    {
-        //enabled = false;
-
-        anim.CrossFade("Shutdown");
-        powerDownSound.Play();
-
-        EnableSmoke(true);
-
-        for(int i = 0; i < 10; ++i)
-        {
-            sparksDie.transform.rotation = Quaternion.LookRotation(new Vector3(Random.value, 10.0f, Random.value), Vector3.right);
-            sparksDie.Emit();
-
-            if(battery > 0)
-            {
-                powerUpSound.Play();
-                powerUpSound.time = 0.1f;
-
-                anim.CrossFade("Idle");
-
-                RenderManager.FadeToColor(Color.clear, 0.3f);
-
-                yield return new WaitForSeconds(anim["Idle"].length);
-
-                enabled = true;
-
-                yield break;
-            }
-
-            yield return new WaitForSeconds(Random.value * 0.3f);
-        }
-
-        if(battery > 0)
-        {
-            powerUpSound.Play();
-
-            anim.CrossFade("Idle");
-
-            RenderManager.FadeToColor(Color.clear, 0.3f);
-
-            yield return new WaitForSeconds(anim["Idle"].length);
-
-            enabled = true;
-
-            yield break;
-        }
-
-        RenderManager.FadeToColor(new Color(0.1f, 0.1f, 0.1f, 0.6f), 2.0f);
-
-        yield return new WaitForSeconds(3.0f);
-    }
-
-    [System.Obsolete]
-    private IEnumerator _DrainBatteryAndDie()
-    {
-        //enabled = false;
-
-        anim.CrossFade("Shutdown");
-        powerDownSound.Play();
-
-        float length = 3.0f;
-        float start = Time.time;
-        float end = start + length;
-        float nextFlicker = 0.0f;
-        bool isDark = false;
-
-        while(Time.time < end)
-        {
-            if(Time.time >= nextFlicker)
-            {
-                float flicker = Random.value * 0.15f;
-                RenderManager.FadeToColor((isDark = !isDark) ? new Color(0, 0, 0, Random.value * 0.5f + 0.5f) : Color.clear, flicker);
-                nextFlicker = Time.time + flicker;
-            }
-
-            if(battery > 0)
-            {
-                powerUpSound.Play();
-
-                anim.CrossFade("Idle");
-
-                RenderManager.FadeToColor(Color.clear, 0.3f);
-
-                yield return new WaitForSeconds(anim["Idle"].length);
-
-                enabled = true;
-
-                yield break;
-            }
-
-            yield return null;
-        }
-
-        if(battery > 0)
-        {
-            powerUpSound.Play();
-
-            anim.CrossFade("Idle");
-            
-            RenderManager.FadeToColor(Color.clear, 0.3f);
-
-            yield return new WaitForSeconds(anim["Idle"].length);
-
-            enabled = true;
-
-            yield break;
-        }
-
-        RenderManager.FadeToColor(new Color(0, 0, 0, 0.7f), 0.2f);
-
-        yield return new WaitForSeconds(1.0f);
-    }
-
-    Vector3 groundPoint
-    {
-        get
-        {
-            RaycastHit hit;
-            return Physics.SphereCast(transform.position + Vector3.up * wheelRadius * 2.0f,
-                                      wheelRadius,
-                                      Vector3.down,
-                                      out hit,
-                                      100.0f,
-                                      notPlayerLayerMask) ? hit.point : Vector3.zero;
-        }
-    }
-    
-    void FixedUpdate()
-    {
-        if(!didJump)
-        {
-            float oldLength = _lastDirection.magnitude;
-            float newLength = _direction.magnitude;
-
-            bool doPuff = false;
-
-            if((newLength - oldLength) > 0.2f)
-                doPuff = true;
-
-            if(oldLength > 0.01f && newLength > 0.01f && Vector3.Angle(_lastDirection, _direction) > 60.0f)
-                doPuff = true;
-
-            if(doPuff)
-                dust.Emit();
-        }
-        
-        _lastDirection = _direction;
-
-        // in case player falls through floor...
-        if (body.position.y < -1.0f)
-        {
-            Debug.LogError("fell through floor");
-
-            var pos = body.position;
-            var rayOrigin = new Vector3(pos.x, 5.0f, pos.z);
-            
-            RaycastHit hit;
-            if (Physics.SphereCast(rayOrigin, wheelRadius, Vector3.down, out hit, 5.0f, notPlayerLayerMask, QueryTriggerInteraction.Ignore))
-            {
-                body.velocity = Vector3.zero;
-                body.position = hit.point;
-                Debug.Log("corrected position");
-            }
-            else
-            {
-                Debug.LogError("surface for player not found");
-            }
-        }
-
-        // MOVEMENT
-        Vector3 start = body.position + Vector3.up * wheelRadius * 1.5f;
-        float rayDist = wheelRadius * 0.5f + extraJumpDist;
-
-        int overlapCount = Physics.OverlapSphereNonAlloc(start, wheelRadius, overlaps, notPlayerLayerMask, QueryTriggerInteraction.Ignore);
-        while(overlapCount >= overlaps.Length)
-        {
-            overlaps = new Collider[overlaps.Length * 2];
-            overlapCount = Physics.OverlapSphereNonAlloc(start, wheelRadius, overlaps, notPlayerLayerMask, QueryTriggerInteraction.Ignore);
-        }
-        
-        int totalHitCount = Physics.SphereCastNonAlloc(start, wheelRadius, Vector3.down, hits, rayDist, notPlayerLayerMask, QueryTriggerInteraction.Ignore);
-        while(totalHitCount >= hits.Length)
-        {
-            hits = new RaycastHit[hits.Length * 2];
-            totalHitCount = Physics.SphereCastNonAlloc(start, wheelRadius, Vector3.down, hits, rayDist, notPlayerLayerMask, QueryTriggerInteraction.Ignore);
-        }
-        
-        Vector3 groundVelocity = Vector3.zero;
-        int hitCount = 0;
-        
-        bool grounded = false;
-        
-        for(int r = 0; r < totalHitCount; ++r)
-        {
-            var hit = hits[r];
-            
-            Collider hitCol = hit.collider;
-            
-            if(hitCol == col || hitCol.isTrigger)
-                continue;
-            
-            bool embedded = false;
-            
-            for(int c = 0; c < overlapCount; ++c)
-            {
-                if(overlaps[c] == hitCol) {
-                    embedded = true;
-                    break;
-                }
-            }
-            
-            if(embedded)
-                continue;
-            
-            Vector3 point = hit.point;
-            bool canJump = Vector3.Angle(hit.normal, Vector3.up) < maxJumpSlope;
-            if(canJump)
-            {
-                grounded = true;
-
-                Rigidbody rb = hitCol.attachedRigidbody;
-
-                if(rb != null && rb.isKinematic)
-                {
-                    groundVelocity += rb.GetPointVelocity(point);
-                    ++hitCount;
-                }
-            }
-        }
-        
-        if(_isGrounded)
-            lastGrounded = Time.time;
-        
-        if(grounded && !_isGrounded && (Time.time - lastGrounded > 0.2f)) {
-            SharedSounds.land.Play();
-        }
-
-        _isGrounded = grounded;
-        
-        if(_direction.magnitude > float.Epsilon)
-        {
-            Quaternion rot = Quaternion.Slerp(
-                body.rotation,
-                Quaternion.LookRotation(_direction.normalized),
-                playerTurnSpeed * Time.fixedDeltaTime);
-
-            body.MoveRotation(rot);
-        }
-
-        if(_isGrounded)
-        {
-            if(hitCount > 0)
-                groundVelocity /= (float)hitCount;
-
-            Vector3 vel = body.velocity;
-            Vector3 velocity = Vector3.zero;
-
-            if(_direction.magnitude > float.Epsilon)
-            {
-                velocity = _direction * maxSpeed + groundVelocity;
-                velocity.y = vel.y;
-            }
-            else
-            {
-                velocity = groundVelocity;
-                velocity.y = vel.y;
-            }
-
-            if(vel.y < 0)
-                didJump = false;
-
-            if(!didJump && jumpPressed && (Time.time - lastGrounded <= jumpTimeAllowance))
-            {
-                didJump = true;
-                SharedSounds.jump.Play();
-                anim["Jump"].time = 0.3f;
-                anim.CrossFade("Jump");
-                velocity.y = jumpSpeed;
-            }
-            
-            body.velocity = Vector3.ClampMagnitude(velocity, clampSpeed);
-        }
-        else // airborn
-        {
-            Vector3 vel = body.velocity;
-
-            if(_direction.magnitude > float.Epsilon)
-            {
-                Vector3 airDir = _direction.normalized;
-                Vector3 fvel = new Vector3(vel.x, 0, vel.z);
-                float extraSpeed = Mathf.Max(0.0f, Vector3.Dot(fvel, airDir));
-                float speed = Mathf.Max(extraSpeed, maxAirSpeed);
-
-                Vector3 f = airDir * speed;
-                vel = new Vector3(f.x, vel.y, f.z);
-            }
-            else
-            {
-                float linearDampening = 0.5f;
-                vel = vel * Mathf.Clamp01(1.0f - linearDampening * Time.fixedDeltaTime);
-            }
-            
-            if(vel.y < 0)
-                didJump = false;
-            
-            if(!didJump && jumpPressed && (Time.time - lastGrounded <= jumpTimeAllowance))
-            {
-                didJump = true;
-                SharedSounds.jump.Play();
-                anim["Jump"].time = 0.3f;
-                anim.CrossFade("Jump");
-                vel.y = jumpSpeed;
-            }
-            
-            body.velocity = Vector3.ClampMagnitude(vel, clampSpeed);
-        }
-        
-        jumpPressed = false;
-    }
-    
-    void OnEnable() {
-        body.constraints = RigidbodyConstraints.FreezeRotation;
-        lastGrounded = Time.time;
-    }
-
-    void OnDisable()
-    {
-        body.velocity = Vector3.zero;
-        body.angularVelocity = Vector3.zero;
-        body.constraints = RigidbodyConstraints.FreezeAll & ~RigidbodyConstraints.FreezePositionY;
-        robotMaterial.SetFloat("_Highlight", 0);
-    }
-
     public static void DoExplosiveDamage(Vector3 explosionPos, float damage, float radius, BatteryDrainReason reason)
     {
         if(!that.enabled)
@@ -798,20 +576,16 @@ public class Player : MonoBehaviour
     {
         int hitLayer = other.gameObject.layer;
 
-        if(hitLayer == chargeLayer)
-        {
+        if(hitLayer == chargeLayer) {
             isCharging = true;
         }
-        else if(hitLayer == chargeFieldLayer)
-        {
+        else if(hitLayer == chargeFieldLayer) {
             isInChargeField = true;
         }
-        else if(hitLayer == waterLayer)
-        {
+        else if(hitLayer == waterLayer) {
             ++inWater;
         }
-        else if(hitLayer == laserLayer)
-        {
+        else if(hitLayer == laserLayer) {
             ++inLasers;
         }
     }
@@ -820,20 +594,16 @@ public class Player : MonoBehaviour
     {
         int hitLayer = other.gameObject.layer;
 
-        if(hitLayer == chargeLayer)
-        {
+        if(hitLayer == chargeLayer) {
             isCharging = false;
         }
-        else if(hitLayer == chargeFieldLayer)
-        {
+        else if(hitLayer == chargeFieldLayer) {
             isInChargeField = false;
         }
-        else if(hitLayer == waterLayer)
-        {
+        else if(hitLayer == waterLayer) {
             --inWater;
         }
-        else if(hitLayer == laserLayer)
-        {
+        else if(hitLayer == laserLayer) {
             --inLasers;
         }
     }
@@ -865,11 +635,8 @@ public class Player : MonoBehaviour
     public static void EnableSmoke(bool enableSmoke, bool clear = false)
     {
         that.smoke.EnableEmission(enableSmoke);
-
         if(clear)
-        {
             that.smoke.Clear();
-        }
     }
 
     public void DrainBattery(float amount, BatteryDrainReason reason)
@@ -886,19 +653,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ChargeBattery(float amount)
-    {
+    public void ChargeBattery(float amount) {
         battery += amount;
-    }
-
-    public static void Explode()
-    {
-        that.StartCoroutine(that._explode());
-    }
-
-    IEnumerator _explode()
-    {
-        yield break;
     }
 
     public void SetMaterial(Material material)

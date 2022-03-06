@@ -154,6 +154,7 @@ QualitySettings:
     Android: 3
     BlackBerry: 0
     Samsung TV: 0
+    Server: 0
     Standalone: 0
     Tizen: 0
     Web: 0
