@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class GameMenuView : MonoBehaviour
 {
     public CanvasGroup group;
+    public TMP_Text levelName;
     public GameMenuButton menuButton;
     public GameObject playButton;
     public GameObject quitButton;
@@ -22,6 +24,11 @@ public class GameMenuView : MonoBehaviour
         menuButton.OnPress();
         MusicMixer.Stop(0.1f);
         GameController.SetLevel(-1);
+    }
+
+    private void Awake()
+    {
+        levelName.text = "Level " + (Util.levelIndex + 1);
     }
 
     private void OnEnable()

@@ -177,12 +177,13 @@ public class Player : MonoBehaviour
     const float AngularVelocityFactor = 19.0f;
     const float JumpImpulse = 12.91f;
     const float JumpTimeAllowance = 0.1f;
+    const float MinAirtimeBeforeLandingSound = 0.2f;
 
     bool grounded = true;
+    bool groundedLastUpdate = true;
     bool jumpPressed = false;
     Vector3 lastDirection = Vector3.zero;
-    float allowLandingSound = 0;
-    float lastGrounded = float.MinValue;
+    float lastGroundedTime = float.MinValue;
 
     private void Awake()
     {
@@ -309,20 +310,27 @@ public class Player : MonoBehaviour
             body.velocity = vel;
         }
 
+        // do landing sound
+        if(grounded && !groundedLastUpdate &&
+            (Time.time - lastGroundedTime) >= MinAirtimeBeforeLandingSound)
+        {
+            SharedSounds.land.Play();
+        }
+
         // do jump
         if(grounded)
-            lastGrounded = Time.time;
+            lastGroundedTime = Time.time;
         
-        if(jumpPressed && (Time.time - lastGrounded) <= JumpTimeAllowance)
+        if(jumpPressed && (Time.time - lastGroundedTime) <= JumpTimeAllowance)
         {
             SharedSounds.jump.Play();
             anim["Jump"].time = 0.3f;
             anim.CrossFade("Jump");
-            lastGrounded = float.MinValue;
+            lastGroundedTime = float.MinValue;
             body.AddForce(Vector3.up * JumpImpulse, ForceMode.Impulse);
         }
-
-        // only valid for one update
+        
+        groundedLastUpdate = grounded;
         grounded = false;
         jumpPressed = false;
     }
@@ -341,20 +349,14 @@ public class Player : MonoBehaviour
         {
             foreach(var contact in collision.contacts)
             {
-                if(contact.thisCollider != wheelCollider)
-                    continue;
-
-                var floorSlope = Vector3.Angle(contact.normal, Vector3.up);
-                if (floorSlope < MaxJumpSlope)
+                if(contact.thisCollider == wheelCollider)
                 {
-                    if(Time.time >= allowLandingSound)
+                    var floorSlope = Vector3.Angle(contact.normal, Vector3.up);
+                    if (floorSlope < MaxJumpSlope)
                     {
-                        SharedSounds.land.Play();
-                        allowLandingSound = Time.time + 0.2f;
+                        grounded = true;
+                        break;
                     }
-
-                    grounded = true;
-                    break;
                 }
             }
         }
@@ -363,7 +365,6 @@ public class Player : MonoBehaviour
     void OnEnable()
     {
         body.constraints = RigidbodyConstraints.FreezeRotation;
-        allowLandingSound = Time.time + 0.2f;
     }
 
     void OnDisable()
